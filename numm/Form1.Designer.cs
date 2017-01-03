@@ -52,29 +52,32 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 28);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 56);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(483, 421);
+            this.pictureBox1.Size = new System.Drawing.Size(1047, 842);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(695, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(13, 4, 0, 4);
+            this.menuStrip1.Size = new System.Drawing.Size(1506, 42);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(83, 34);
             this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearCurve1);
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearALL);
             // 
             // tabControl1
             // 
@@ -82,21 +85,23 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(489, 27);
+            this.tabControl1.Location = new System.Drawing.Point(1060, 54);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(206, 324);
+            this.tabControl1.Size = new System.Drawing.Size(446, 648);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.ClearCurve1Btn);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(8, 39);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(198, 298);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage1.Size = new System.Drawing.Size(430, 601);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Curve1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -104,31 +109,33 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 34);
-            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label1.Location = new System.Drawing.Point(9, 68);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 12);
+            this.label1.Size = new System.Drawing.Size(90, 24);
             this.label1.TabIndex = 3;
             this.label1.Text = "Number:";
             // 
             // ClearCurve1Btn
             // 
-            this.ClearCurve1Btn.Location = new System.Drawing.Point(3, 5);
+            this.ClearCurve1Btn.Location = new System.Drawing.Point(7, 10);
+            this.ClearCurve1Btn.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.ClearCurve1Btn.Name = "ClearCurve1Btn";
-            this.ClearCurve1Btn.Size = new System.Drawing.Size(187, 26);
+            this.ClearCurve1Btn.Size = new System.Drawing.Size(405, 52);
             this.ClearCurve1Btn.TabIndex = 1;
             this.ClearCurve1Btn.Text = "Clear Curve1";
             this.ClearCurve1Btn.UseVisualStyleBackColor = true;
-            this.ClearCurve1Btn.Click += new System.EventHandler(this.ClearCurve1);
+            this.ClearCurve1Btn.Click += new System.EventHandler(this.ClearALL);
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.ClearCurve2Btn);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(8, 39);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(198, 298);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage2.Size = new System.Drawing.Size(430, 601);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Curve2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -136,32 +143,35 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 34);
-            this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label2.Location = new System.Drawing.Point(9, 68);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 12);
+            this.label2.Size = new System.Drawing.Size(90, 24);
             this.label2.TabIndex = 4;
             this.label2.Text = "Number:";
             // 
             // ClearCurve2Btn
             // 
-            this.ClearCurve2Btn.Location = new System.Drawing.Point(3, 5);
+            this.ClearCurve2Btn.Location = new System.Drawing.Point(7, 10);
+            this.ClearCurve2Btn.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.ClearCurve2Btn.Name = "ClearCurve2Btn";
-            this.ClearCurve2Btn.Size = new System.Drawing.Size(187, 26);
+            this.ClearCurve2Btn.Size = new System.Drawing.Size(405, 52);
             this.ClearCurve2Btn.TabIndex = 2;
             this.ClearCurve2Btn.Text = "Clear Curve2";
             this.ClearCurve2Btn.UseVisualStyleBackColor = true;
+            this.ClearCurve2Btn.Click += new System.EventHandler(this.ClearCurve2Btn_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 448);
+            this.ClientSize = new System.Drawing.Size(1506, 896);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "Form1";
             this.Text = "numm-Bézier curve generator";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

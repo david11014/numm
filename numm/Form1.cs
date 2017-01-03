@@ -17,50 +17,63 @@ namespace numm
         Graphics G;
         Bezier B1 = new Bezier();
         Bezier B2 = new Bezier();
-
-        
+        bool draw1 = false;
+        bool draw2 = false;    
 
         public Form1()
         {
             InitializeComponent();        
             B2.PointCo = Color.Green;
-            B2.CurveCo = Color.Black;
-
+            B2.CurveCo = Color.Black;            
             label1.Text = B1.listP();
             label2.Text = B2.listP();
+            G = pictureBox1.CreateGraphics();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            
+
             switch (e.Button)
             {
                 case MouseButtons.Left:
 
-                    if(tabControl1.SelectedIndex ==0 )
+                    if (tabControl1.SelectedIndex == 0)
+                    {
                         B1.addP(new PointF(e.X, e.Y));
+                        if (draw1)
+                        {
+                            ClearCurve1();
+                            draw1 = false;
+                        }
+                    }
                     else
+                    {
                         B2.addP(new PointF(e.X, e.Y));
-
-                    G = pictureBox1.CreateGraphics();
-                    
+                        if (draw2)
+                        {
+                            ClearCurve2();
+                            draw2 = false;
+                        }
+                    }                    
+                                        
                     label1.Text = B1.listP();
-                    label2.Text = B2.listP();
+                    label2.Text = B2.listP();                    
                     DrawP(B1.CtrlPoint,B1.PointCo);
                     DrawP(B2.CtrlPoint, B2.PointCo);
                     break;
                 case MouseButtons.Right:
                     if (tabControl1.SelectedIndex == 0)
                     {
-                        ClearCurve1();
+                       // ClearCurve2();
                         Bezier_curve(B1);
+                        draw1 = true;
                     }
                     else
                     {
-                        ClearCurve1();
+                      //  ClearCurve1();
                         Bezier_curve(B2);
-                    }
-                        
+                        draw2 = true;
+                    }                        
 
                     break;
             }
@@ -82,37 +95,47 @@ namespace numm
             foreach (PointF p in CP)
             {
                 System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(c);                
-                G.FillEllipse(myBrush, new Rectangle((int)p.X,(int)p.Y,4,4));
+                G.FillEllipse(myBrush, new Rectangle((int)p.X-2,(int)p.Y-2,4,4));
             }
         }
 
         void ClearCurve1()
         {
             G.Clear(Color.White);
-            B1.clear();
-            DrawP(B2.CtrlPoint, B1.PointCo);
-            Bezier_curve(B1);
+            B1.Point_Bezier.Clear();
+            DrawP(B2.CtrlPoint, B2.PointCo);
+            Bezier_curve(B2);            
             label1.Text = B1.listP();
         }
 
         void ClearCurve2()
         {
             G.Clear(Color.White);
-            B2.clear();
+            B2.Point_Bezier.Clear();
             DrawP(B1.CtrlPoint, B1.PointCo);
             Bezier_curve(B1);
             label2.Text = B2.listP();
         }
 
-        private void ClearCurve1(object sender, EventArgs e)
+        private void ClearALL(object sender, EventArgs e)
         {
             G.Clear(Color.White);
             B1.clear();
-            DrawP(B2.CtrlPoint,B1.PointCo);
-            Bezier_curve(B1);
+            B2.clear();            
+            label1.Text = B1.listP();
+            label2.Text = B2.listP();
+        }
+
+        private void ClearCurve1Btn_Click(object sender, EventArgs e)
+        {
+            G.Clear(Color.White);
+            B1.clear();
+            DrawP(B2.CtrlPoint, B2.PointCo);
+            Bezier_curve(B2);
             label1.Text = B1.listP();
         }
-        private void ClearCurve2(object sender, EventArgs e)
+
+        private void ClearCurve2Btn_Click(object sender, EventArgs e)
         {
             G.Clear(Color.White);
             B2.clear();
@@ -120,41 +143,6 @@ namespace numm
             Bezier_curve(B1);
             label2.Text = B2.listP();
         }
-
-        /*public struct PointD  //因為Point宣告是int，只好自己定義double
-        {
-            public double X;
-            public double Y;
-
-            public PointD(double x, double y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public Point ToPoint()
-            {
-                return new Point((int)X, (int)Y);
-            }
-
-            public override bool Equals(object obj)
-            {
-                return obj is PointD && this == (PointD)obj;
-            }
-            public override int GetHashCode()
-            {
-                return X.GetHashCode() ^ Y.GetHashCode();
-            }
-            public static bool operator ==(PointD a, PointD b)
-            {
-                return a.X == b.X && a.Y == b.Y;
-            }
-            public static bool operator !=(PointD a, PointD b)
-            {
-                return !(a == b);
-            }
-        }*/
-
     }
 
     public class Bezier
@@ -162,8 +150,8 @@ namespace numm
         public List<PointF> CtrlPoint = new List<PointF>();
         public List<PointF> Point_Bezier = new List<PointF>();
 
-       public Color PointCo = Color.Red;
-       public Color CurveCo = Color.Blue;
+        public Color PointCo = Color.Red;
+        public Color CurveCo = Color.Blue;
 
         float h = 0.01f; // Resolution of each point
 
@@ -172,27 +160,32 @@ namespace numm
 
         }
 
-        public void BezierCalculate() // Calculate each point
+        public void BezierCalculate() // Calculate each point of Bezier curve
         {
-
+            Point_Bezier.Clear();
             PointF[,] Stack = new PointF[CtrlPoint.Count, CtrlPoint.Count];
-
-            for (int i = 0; i < CtrlPoint.Count; i++)
-                Stack[i, 0] = CtrlPoint[i];  
-
-            for (float u = 0; u <= 1; u = u + h)
+            if (CtrlPoint.Count != 0)
             {
-                for (int j = 0; j < (CtrlPoint.Count - 1); j++)
+                for (int i = 0; i < CtrlPoint.Count; i++)
+                    Stack[i, 0] = CtrlPoint[i];
+
+                for (float u = 0; u <= 1; u = u + h)
                 {
-                    for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                        Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
+                    for (int j = 0; j < (CtrlPoint.Count - 1); j++)
+                    {
+                        for (int i = 0; i < (CtrlPoint.Count - 1); i++)
+                            Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
+                    }
+                    Point_Bezier.Add(Stack[0, (CtrlPoint.Count - 1)]);
                 }
-                Point_Bezier.Add(Stack[0, (CtrlPoint.Count - 1)]);
             }
         }
+
+      
+
         public void addP(PointF a)
         {
-            CtrlPoint.Add(a);
+            CtrlPoint.Add(a);               
         }
 
         public string listP()
