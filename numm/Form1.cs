@@ -15,147 +15,162 @@ namespace numm
     {
 
         Graphics G;
-        List<PointF> Pos_list = new List<PointF>();
-        List<PointF> Point_Bezier = new List<PointF>();
         Bezier B = new Bezier();
         float h = 0.01f; // Resolution of each point
-        int count = 0;
-               
+                       
         public Form1()
         {
-            InitializeComponent();
-            G = pictureBox1.CreateGraphics();
-
+            InitializeComponent();        
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Pen pen_dot = new Pen(Color.Red);
-                    G.DrawRectangle(pen_dot, e.X, e.Y, 1, 1);
-                    PointF Pos_mouse = new PointF(e.X, e.Y);
-                    Pos_list.Add(Pos_mouse);
-                    label2.Text = Convert.ToString(Pos_list.Count);
-                    count++;
+                    B.addP(new PointF(e.X, e.Y));
+                    DrawP();
+                    label1.Text = B.listP();
+                    
                     break;
                 case MouseButtons.Right:
-                    //Line_spline(Pos_list);
+                    //Line_spline(B.CtrlPoint);
                     Bezier_curve();
                     break;
             }
         }
 
-        private void Line_spline(List<PointF> points)
+        void Bezier_curve()  // Draw the Bezier curve 
         {
+            Bezier_calculate();
+
             Pen pen_line = new Pen(Color.Blue);
-            for (int i = 0; i < (points.Count - 1); i++)
-                G.DrawLine(pen_line, points[i], points[i + 1]);
+            for (int i = 0; i < (B.Point_Bezier.Count - 1); i++)
+                G.DrawLine(pen_line, B.Point_Bezier[i], B.Point_Bezier[i + 1]);
         }
 
-        private void Bezier_curve()  // Draw the Bezier curve 
+        void Bezier_calculate() // Calculate each point
         {
-            Bezier_calculate();            
-            Line_spline(Point_Bezier);
-        }
-
-        private void Bezier_calculate() // Calculate each point
-        {
-            PointF[,] Stack = new PointF[Pos_list.Count, Pos_list.Count];
-            for (int i = 0; i < Pos_list.Count; i++)
+            PointF[,] Stack = new PointF[B.CtrlPoint.Count, B.CtrlPoint.Count];
+            for (int i = 0; i < B.CtrlPoint.Count; i++)
             {
-                Stack[i, 0] = Pos_list[i];
+                Stack[i, 0] = B.CtrlPoint[i];
             }
 
 
             for (float u = 0; u <= 1; u = u + h)
             {
-                for (int j = 0; j < (Pos_list.Count-1); j++)
+                for (int j = 0; j < (B.CtrlPoint.Count-1); j++)
                 {
-                    for (int i = 0; i < (Pos_list.Count - 1); i++)
+                    for (int i = 0; i < (B.CtrlPoint.Count - 1); i++)
                         Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
                 }
-                Point_Bezier.Add(Stack[0, (Pos_list.Count - 1)]);
-                //label1.Text = Convert.ToString(Stack[0, (Pos_list.Count - 1)]);
-                //label1.Text = Convert.ToString(h);
+                B.Point_Bezier.Add(Stack[0, (B.CtrlPoint.Count - 1)]);
             }
         }
           
-
-        private void button1_Click(object sender, EventArgs e)
+        void DrawP()
         {
-            G.Clear(Color.White);
-            Pos_list.Clear();
-            Point_Bezier.Clear();
-            label2.Text = Convert.ToString(Pos_list.Count);
-            count = 0;           
+            G = pictureBox1.CreateGraphics();
+            foreach (PointF p in B.CtrlPoint)
+            {
+                System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
+                
+                G.FillEllipse(myBrush, new Rectangle((int)p.X,(int)p.Y,2,2));
+
+            }
         }
 
-        //public struct PointD  //因為Point宣告是int，只好自己定義double
-        //{
-        //    public double X;
-        //    public double Y;
+        private void Clear(object sender, EventArgs e)
+        {
+            G.Clear(Color.White);
+            B.clear();
+            label1.Text = B.listP();
+        }
 
-        //    public PointD(double x, double y)
-        //    {
-        //        X = x;
-        //        Y = y;
-        //    }
+        /*public struct PointD  //因為Point宣告是int，只好自己定義double
+        {
+            public double X;
+            public double Y;
 
-        //    public Point ToPoint()
-        //    {
-        //        return new Point((int)X, (int)Y);
-        //    }
+            public PointD(double x, double y)
+            {
+                X = x;
+                Y = y;
+            }
 
-        //    public override bool Equals(object obj)
-        //    {
-        //        return obj is PointD && this == (PointD)obj;
-        //    }
-        //    public override int GetHashCode()
-        //    {
-        //        return X.GetHashCode() ^ Y.GetHashCode();
-        //    }
-        //    public static bool operator ==(PointD a, PointD b)
-        //    {
-        //        return a.X == b.X && a.Y == b.Y;
-        //    }
-        //    public static bool operator !=(PointD a, PointD b)
-        //    {
-        //        return !(a == b);
-        //    }
-        //}
+            public Point ToPoint()
+            {
+                return new Point((int)X, (int)Y);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is PointD && this == (PointD)obj;
+            }
+            public override int GetHashCode()
+            {
+                return X.GetHashCode() ^ Y.GetHashCode();
+            }
+            public static bool operator ==(PointD a, PointD b)
+            {
+                return a.X == b.X && a.Y == b.Y;
+            }
+            public static bool operator !=(PointD a, PointD b)
+            {
+                return !(a == b);
+            }
+        }*/
 
     }
 
-    
-
     public class Bezier
     {
-        public Point[] CtrlPoint;
-
+        public List<PointF> CtrlPoint = new List<PointF>();
+        public List<PointF> Point_Bezier = new List<PointF>();
 
         public Bezier()
-        {           
-                
-        }
+        {
 
-  
+        }
 
         public Point P(double t)
         {
-            Point p = new  Point(0, 0);
+            Point p = new Point(0, 0);
 
             // 點賦值方法
-            
             p.X = 10;
             p.Y = 20;
             // 另一點賦值方法
             p = new Point(30, 50);
-
-            
-
             return p;
         }
+
+        public void addP(PointF a)
+        {
+            CtrlPoint.Add(a);
+        }
+
+        public string listP()
+        {
+            string s = "Number: ";
+
+            s += CtrlPoint.Count.ToString() + "\nPoint:\n";
+
+            foreach (PointF p in CtrlPoint)
+            {
+                s += p.ToString() + '\n';
+            }
+            return s;
+        }
+
+        public void clear()
+        {
+            CtrlPoint.Clear();
+            Point_Bezier.Clear();
+        }
     }
+
 }
+
