@@ -28,6 +28,7 @@ namespace numm
             label1.Text = B1.listP();
             label2.Text = B2.listP();
             G = pictureBox1.CreateGraphics();
+            debug.Text = "";
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -37,6 +38,7 @@ namespace numm
             {
                 case MouseButtons.Left:
 
+                   
                     if (tabControl1.SelectedIndex == 0)
                     {
                         B1.addP(new PointF(e.X, e.Y));
@@ -62,6 +64,7 @@ namespace numm
                     DrawP(B2.CtrlPoint, B2.PointCo);
                     break;
                 case MouseButtons.Right:
+                    G = pictureBox1.CreateGraphics();
                     if (tabControl1.SelectedIndex == 0)
                     {
                        // ClearCurve2();
@@ -143,6 +146,24 @@ namespace numm
             Bezier_curve(B1);
             label2.Text = B2.listP();
         }
+
+        private void Find_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            G = pictureBox1.CreateGraphics();
+            DrawP(B1.CtrlPoint, B1.PointCo);
+            DrawP(B2.CtrlPoint, B2.PointCo);
+            if (draw1 == true)
+                Bezier_curve(B1);
+
+            if (draw2 == true)
+                Bezier_curve(B2);
+
+        }
     }
 
     public class Bezier
@@ -174,14 +195,33 @@ namespace numm
                     for (int j = 0; j < (CtrlPoint.Count - 1); j++)
                     {
                         for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                            Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
+                            Stack[i, j + 1] = new PointF( (1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y );
                     }
                     Point_Bezier.Add(Stack[0, (CtrlPoint.Count - 1)]);
                 }
             }
         }
 
-      
+       public PointF getPoint(float u)
+        {
+            PointF[,] Stack = new PointF[CtrlPoint.Count, CtrlPoint.Count];
+            
+            if (CtrlPoint.Count != 0)
+            {
+                for (int i = 0; i < CtrlPoint.Count; i++)
+                    Stack[i, 0] = CtrlPoint[i];
+
+                for (int j = 0; j < (CtrlPoint.Count - 1); j++)
+                {
+                    for (int i = 0; i < (CtrlPoint.Count - 1); i++)
+                        Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
+                }
+                
+                return Stack[0, (CtrlPoint.Count - 1)];
+            }
+            else
+                return new PointF(0, 0);
+        }
 
         public void addP(PointF a)
         {
