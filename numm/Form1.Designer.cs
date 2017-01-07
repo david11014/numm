@@ -34,15 +34,17 @@
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.ClearCurve1Btn = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.ClearCurve2Btn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Find = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.debug = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -59,7 +61,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Location = new System.Drawing.Point(0, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(466, 432);
+            this.pictureBox1.Size = new System.Drawing.Size(582, 542);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -71,7 +73,7 @@
             this.clearToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(679, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(795, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -84,38 +86,35 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(472, 27);
+            this.tabControl1.Location = new System.Drawing.Point(588, 27);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(206, 263);
+            this.tabControl1.Size = new System.Drawing.Size(206, 321);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.richTextBox2);
             this.tabPage1.Controls.Add(this.ClearCurve1Btn);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(198, 237);
+            this.tabPage1.Size = new System.Drawing.Size(198, 295);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Curve1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // richTextBox2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 34);
-            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Number:";
+            this.richTextBox2.Location = new System.Drawing.Point(3, 37);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(187, 252);
+            this.richTextBox2.TabIndex = 11;
+            this.richTextBox2.Text = "";
             // 
             // ClearCurve1Btn
             // 
@@ -129,25 +128,23 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.richTextBox3);
             this.tabPage2.Controls.Add(this.ClearCurve2Btn);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(198, 237);
+            this.tabPage2.Size = new System.Drawing.Size(198, 295);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Curve2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // richTextBox3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 34);
-            this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 12);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Number:";
+            this.richTextBox3.Location = new System.Drawing.Point(3, 37);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.Size = new System.Drawing.Size(187, 252);
+            this.richTextBox3.TabIndex = 12;
+            this.richTextBox3.Text = "";
             // 
             // ClearCurve2Btn
             // 
@@ -171,7 +168,7 @@
             // 
             // Find
             // 
-            this.Find.Location = new System.Drawing.Point(7, 30);
+            this.Find.Location = new System.Drawing.Point(7, 32);
             this.Find.Name = "Find";
             this.Find.Size = new System.Drawing.Size(187, 26);
             this.Find.TabIndex = 8;
@@ -181,29 +178,47 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Controls.Add(this.debug);
             this.panel1.Controls.Add(this.Find);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Location = new System.Drawing.Point(474, 292);
+            this.panel1.Location = new System.Drawing.Point(590, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 167);
+            this.panel1.Size = new System.Drawing.Size(200, 219);
             this.panel1.TabIndex = 9;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(8, 88);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(184, 117);
+            this.richTextBox1.TabIndex = 10;
+            this.richTextBox1.Text = "";
             // 
             // debug
             // 
             this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(8, 77);
+            this.debug.Location = new System.Drawing.Point(8, 62);
             this.debug.Name = "debug";
             this.debug.Size = new System.Drawing.Size(33, 12);
             this.debug.TabIndex = 9;
             this.debug.Text = "label3";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(40, 54);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(679, 457);
+            this.ClientSize = new System.Drawing.Size(795, 567);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
@@ -219,9 +234,7 @@
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -235,15 +248,17 @@
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ClearCurve1Btn;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button ClearCurve2Btn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Find;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label debug;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
