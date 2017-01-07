@@ -198,7 +198,7 @@ namespace numm
 
             richTextBox1.Text += "Find " + intersectionP.Count.ToString() + " point.\n";
             foreach (PointF p in intersectionP)
-                richTextBox1.Text += "P = " + intersectionP.Last().ToString() + "\n";
+                richTextBox1.Text += "P = " + p.ToString() + "\n";
                        
         }
 
@@ -409,8 +409,7 @@ namespace numm
             CtrlPoint.Clear();
             Point_Curve.Clear();
         }
-        
-        
+                
     }
 
     public class Vector
@@ -463,4 +462,3 @@ namespace numm
     }
 
 }
-
