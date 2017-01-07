@@ -15,6 +15,7 @@ namespace numm
     {
         const float h = 0.01f;
         Graphics G;
+        Color intersectionPCo =new Color();
         Bezier B1 = new Bezier();
         Bezier B2 = new Bezier();
         bool draw1 = false;
@@ -23,11 +24,16 @@ namespace numm
         public Form1()
         {
             InitializeComponent();
-            B2.PointCo = Color.Green;
-            B2.CurveCo = Color.Black;
+            B1.PointCo = Color.FromArgb(255, 234, 87, 50); 
+            B1.CurveCo = Color.FromArgb(255, 54, 132, 193);
+            B2.PointCo = Color.FromArgb(255, 92, 149, 74);
+            B2.CurveCo = Color.FromArgb(255,0 ,0,0);
+            intersectionPCo = Color.FromArgb(255, 255, 180, 85);
+
             richTextBox2.Text = B1.listP();
             richTextBox3.Text = B2.listP();
             G = pictureBox1.CreateGraphics();
+            
             debug.Text = "";
         }
 
@@ -104,12 +110,28 @@ namespace numm
                 G.FillEllipse(myBrush, new Rectangle((int)p.X - 2, (int)p.Y - 2, 4, 4));
             }
         }
+        void DrawP(List<PointF> CP, Color c,int size)
+        {
+            if (CP.Count <= 0)
+                return;
+
+            foreach (PointF p in CP)
+            {
+                System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(c);
+                G.FillEllipse(myBrush, new Rectangle((int)(p.X - size / 2), (int)(p.Y - size / 2), size, size));
+            }
+        }
 
         //draw single point
         void DrawP(PointF P, Color c)
         {
             System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(c);
             G.FillEllipse(myBrush, new Rectangle((int)P.X - 2, (int)P.Y - 2, 5, 5));
+        }
+        void DrawP(PointF P, Color c,int size)
+        {
+            System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(c);
+            G.FillEllipse(myBrush, new Rectangle((int)(P.X - size/2), (int)(P.Y - size/2), 5, size));
         }
 
         /**clear curve functuons**/
@@ -172,7 +194,8 @@ namespace numm
                         intersectionP.Add(intersection(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]));           
 
             //display the point
-            DrawP(intersectionP,Color.Aqua);
+            DrawP(intersectionP, intersectionPCo,8);
+
             richTextBox1.Text += "Find " + intersectionP.Count.ToString() + " point.\n";
             foreach (PointF p in intersectionP)
                 richTextBox1.Text += "P = " + intersectionP.Last().ToString() + "\n";
