@@ -20,6 +20,7 @@ namespace numm
         Bezier B2 = new Bezier();
         bool draw1 = false;
         bool draw2 = false;
+        int FitType = 0;
 
         public Form1()
         {
@@ -91,8 +92,15 @@ namespace numm
         // Draw the Bezier curve 
         void Bezier_curve(Bezier b)  
         {
-            b.BezierCalculate();
-           
+            switch (FitType) {
+                case 0:
+                    b.BezierCalculate();
+                break;
+                case 1:
+                    b.Line_Calculate();
+                    break;
+            }        
+                      
             Pen pen_line = new Pen(b.CurveCo);
             for (int i = 0; i < (b.Point_Bezier.Count - 1); i++)
                 G.DrawLine(pen_line, b.Point_Bezier[i], b.Point_Bezier[i + 1]);             
@@ -263,6 +271,15 @@ namespace numm
                 Bezier_curve(B2);
         }
 
+        private void BezierStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FitType = 0;
+        }
+
+        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FitType = 1;
+        }
     }
 
     public class Bezier
@@ -313,7 +330,7 @@ namespace numm
                 for (int j = 0; j < (CtrlPoint.Count - 1); j++)
                 {
                     for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                        Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
+                        Stack[i, j + 1] = new PointF(u * Stack[i + 1, j].X + (1-u) * Stack[i, j].X, u * Stack[i + 1, j].Y + (1-u) * Stack[i, j].Y);
                 } 
 
                 return Stack[0, (CtrlPoint.Count - 1)];
@@ -344,6 +361,27 @@ namespace numm
         {
             CtrlPoint.Clear();
             Point_Bezier.Clear();
+        }
+        
+        public void Line_Calculate()
+        {
+            Point_Bezier.Clear();
+            PointF[] Stack = new PointF[CtrlPoint.Count];
+            if (CtrlPoint.Count != 0)
+            {
+                for (int i = 0; i < CtrlPoint.Count; i++)
+                    Stack[i] = CtrlPoint[i];
+
+                for (int i = 0; i < (CtrlPoint.Count - 1); i++)
+                {
+                    for (float u = 0; u <= 1; u = u + h)
+                    {
+                        Point_Bezier.Add(new PointF(u * Stack[i + 1].X + (1 - u) * Stack[i].X, u * Stack[i + 1].Y + (1 - u) * Stack[i].Y));
+                    }
+                }
+            }
+                
+
         }
     }
 
@@ -394,7 +432,6 @@ namespace numm
 
         public static float operator *(Vector c1, Vector c2) =>
            c1.X * c2.X + c1.Y * c2.Y;
-
     }
 
 }
