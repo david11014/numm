@@ -48,12 +48,20 @@ namespace numm
                     if (tabControl1.SelectedIndex == 0)
                     {
                         B1.addP(new PointF(e.X, e.Y));
-                        ClearCurve1();                       
+                        if(draw1)
+                        {
+                            ClearCurve1();
+                            draw1 = false;
+                        }                        
                     }
                     else
                     {
                         B2.addP(new PointF(e.X, e.Y));
-                        ClearCurve2();
+                        if (draw2)
+                        {
+                            ClearCurve2();
+                            draw2 = false;
+                        }
                     }
 
                     Curve1PList.Text = B1.listP();
@@ -66,12 +74,14 @@ namespace numm
                     if (tabControl1.SelectedIndex == 0)
                     {
                         ClearCurve1();
+                        B1.CalcuateCurve(B1.Type);
                         Generate_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
                         ClearCurve2();
+                        B2.CalcuateCurve(B2.Type);
                         Generate_curve(B2);
                         draw2 = true;
                     }
@@ -81,9 +91,8 @@ namespace numm
         }
 
         // Draw the Bezier curve 
-        void Generate_curve(Bezier b)  
-        {
-            b.CalcuateCurve(b.Type);
+        void Generate_curve(Bezier b)          {
+            
             Pen pen_line = new Pen(b.CurveCo);
             for (int i = 0; i < (b.Point_Curve.Count - 1); i++)
                 G.DrawLine(pen_line, b.Point_Curve[i], b.Point_Curve[i + 1]);             
@@ -128,10 +137,12 @@ namespace numm
         /**clear curve functuons**/
         void ClearCurve1()
         {
+            //clear
             G.Clear(Color.White);
             B1.Point_Curve.Clear();
             Curve1PList.Text = B1.listP();
 
+            //replot  
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
             Generate_curve(B2);
@@ -140,10 +151,12 @@ namespace numm
 
         void ClearCurve2()
         {
+            //clear
             G.Clear(Color.White);
             B2.Point_Curve.Clear();
             Curve2PList.Text = B2.listP();
 
+            //replot  
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
             Generate_curve(B1);

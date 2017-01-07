@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "numm", "numm\numm.csproj", "{D4CA4820-AAAD-4963-B744-3B248E66F476}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BC41691-C33E-4023-8B64-8E59E3A15819}"
+	ProjectSection(SolutionItems) = preProject
+		numm\favicon.ico = numm\favicon.ico
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
