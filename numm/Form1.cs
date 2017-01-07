@@ -82,12 +82,14 @@ namespace numm
             }
         }
 
-        void Bezier_curve(Bezier b)  // Draw the Bezier curve 
+        // Draw the Bezier curve 
+        void Bezier_curve(Bezier b)  
         {
             b.BezierCalculate();
+           
             Pen pen_line = new Pen(b.CurveCo);
             for (int i = 0; i < (b.Point_Bezier.Count - 1); i++)
-                G.DrawLine(pen_line, b.Point_Bezier[i], b.Point_Bezier[i + 1]);
+                G.DrawLine(pen_line, b.Point_Bezier[i], b.Point_Bezier[i + 1]);             
         }
 
         //draw muti point
@@ -110,6 +112,7 @@ namespace numm
             G.FillEllipse(myBrush, new Rectangle((int)P.X - 2, (int)P.Y - 2, 5, 5));
         }
 
+        /**clear curve functuons**/
         void ClearCurve1()
         {
             G.Clear(Color.White);
@@ -155,101 +158,25 @@ namespace numm
             richTextBox3.Text = B2.listP();
         }
 
+
+        //find intersect
         private void Find_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
-            float t1 =0, t2 = 00;
-            float det = 0;
-            float fx, fy, fx1, fx2, fy1, fy2;
-            int i = 0;
-
-
-            float dx=0, dy=0;
-            List<PointF> root = new List<PointF>();
-
+            
+            List<PointF> intersectionP = new List<PointF>();
+           
             for(int j=0; j < B1.Point_Bezier.Count-1; j++)
-            {
-                for (int k= 0; k < B2.Point_Bezier.Count; k++)
-                {
-                    dx = B1.Point_Bezier[j].X - B2.Point_Bezier[k].X;
-                    dy = B1.Point_Bezier[j].Y - B2.Point_Bezier[k].Y;
+                for (int k = 0; k < B2.Point_Bezier.Count - 1; k++)
+                    if (intersect(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]))
+                        intersectionP.Add(intersection(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]));           
 
-                    if((dx*dx + dy*dy) < 1)
-                    {
-                        
-                        if (intersect(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]))
-                        {
-
-                            //DrawP(B1.Point_Bezier[j], Color.Aqua);
-                            //DrawP(B2.Point_Bezier[k], Color.Aqua);
-
-                            root.Add(intersection(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]));
-                            
-                            richTextBox1.Text += "Point " + root.Count.ToString() + "---\n";
-                            //richTextBox1.Text += "B1= " + B1.Point_Bezier[j].ToString() + "\nB2= " + B2.Point_Bezier[k].ToString() + "\n";
-                            richTextBox1.Text += "P = " + root.Last().ToString() + "\n";
-
-                        }                        
-                    }
-                }
-            }
-
-            DrawP(root,Color.Aqua);
-            /*
-            while (i<1000)
-            {
-
-                richTextBox1.Text += "t1= " + t1.ToString() + "t2= " + t2.ToString() + "\n";
-                richTextBox1.Text += "Fx= " + Fx(t1, t2).ToString() + "Fy= " + Fy(t1, t2).ToString() + "\n";
-
-                fx   = Fx(t1,t2);
-                fy   = Fy(t1, t2);
-                fx1 = dFx1(t1, t2).X;
-                fy1 = dFx1(t1, t2).Y;
-                fx2 = dFx2(t1, t2).X;
-                fy2 = dFx2(t1, t2).Y;
-                det = fx1 * fy2 - fx2 * fy1;
-
-                t1 = t1 - (fy2 * fx - fx2 * fy) / det;
-                t2 = t1 - (-fy1 * fx + fx1 * fy) / det;
-
-                if (t1 > 1 || t2 >1|| t1 < 0 || t2 < 0)
-                {
-                    debug.Text = "out of range" + "t1= " + t1.ToString() + "t2= " + t2.ToString() + "\n";
-                    break;
-                }else if (Fx(t1, t2)<0.1 && Fy(t1, t2) < 0.1)
-                {
-                    richTextBox1.Text += "find!! \n";
-                    richTextBox1.Text += "t1= " + t1.ToString() + "t2= " + t2.ToString() + "\n";
-                    richTextBox1.Text += "Fx= " + Fx(t1, t2).ToString() + "Fy= " + Fy(t1, t2).ToString() + "\n";
-                }
-                i++;
-            }*/
-        }
-
-        float Fx(float t1, float t2)
-        {
-            return B1.getPoint(t1).X - B1.getPoint(t2).X;
-        }
-
-        float Fy(float t1, float t2)
-        {
-            return B1.getPoint(t1).Y - B1.getPoint(t2).Y;
-        }
-
-        PointF dFx1(float t1, float t2)
-        {
-
-            float x = (Fx(t1, t2) - Fx(t1 + h, t2))/h, y = (Fy(t1, t2) - Fy(t1 + h, t2)) / h;
-
-           return new PointF( x, y);
-        }
-
-        PointF dFx2(float t1, float t2)
-        {
-            float x = (Fx(t1, t2) - Fx(t1, t2 + h)) / h, y = (Fy(t1, t2) - Fy(t1, t2 + h)) / h;
-
-            return new PointF(x, y);
+            //display the point
+            DrawP(intersectionP,Color.Aqua);
+            richTextBox1.Text += "Find " + intersectionP.Count.ToString() + " point.\n";
+            foreach (PointF p in intersectionP)
+                richTextBox1.Text += "P = " + intersectionP.Last().ToString() + "\n";
+                       
         }
 
         //交點判斷

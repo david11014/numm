@@ -58,9 +58,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 27);
+            this.pictureBox1.Location = new System.Drawing.Point(5, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(582, 542);
+            this.pictureBox1.Size = new System.Drawing.Size(486, 539);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -72,7 +72,7 @@
             this.clearToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(795, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(699, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -88,7 +88,7 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(588, 27);
+            this.tabControl1.Location = new System.Drawing.Point(492, 27);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -111,6 +111,7 @@
             // 
             this.richTextBox2.Location = new System.Drawing.Point(3, 37);
             this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
             this.richTextBox2.Size = new System.Drawing.Size(187, 252);
             this.richTextBox2.TabIndex = 11;
             this.richTextBox2.Text = "";
@@ -141,6 +142,7 @@
             // 
             this.richTextBox3.Location = new System.Drawing.Point(3, 37);
             this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
             this.richTextBox3.Size = new System.Drawing.Size(187, 252);
             this.richTextBox3.TabIndex = 12;
             this.richTextBox3.Text = "";
@@ -183,23 +185,26 @@
             this.panel1.Controls.Add(this.debug);
             this.panel1.Controls.Add(this.Find);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Location = new System.Drawing.Point(590, 350);
+            this.panel1.Location = new System.Drawing.Point(494, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 219);
+            this.panel1.Size = new System.Drawing.Size(200, 216);
             this.panel1.TabIndex = 9;
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.richTextBox1.Location = new System.Drawing.Point(8, 77);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(184, 128);
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(184, 136);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
             // debug
             // 
             this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(8, 62);
+            this.debug.Location = new System.Drawing.Point(6, 62);
             this.debug.Name = "debug";
             this.debug.Size = new System.Drawing.Size(33, 12);
             this.debug.TabIndex = 9;
@@ -209,7 +214,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 567);
+            this.ClientSize = new System.Drawing.Size(699, 578);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
