@@ -34,12 +34,18 @@
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BezierStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.curve2BezierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.curve2LineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.T_Line1 = new System.Windows.Forms.RadioButton();
+            this.T_Buzier1 = new System.Windows.Forms.RadioButton();
+            this.Curve1PList = new System.Windows.Forms.RichTextBox();
             this.ClearCurve1Btn = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.T_Line2 = new System.Windows.Forms.RadioButton();
+            this.T_Buzier2 = new System.Windows.Forms.RadioButton();
+            this.Curve2PList = new System.Windows.Forms.RichTextBox();
             this.ClearCurve2Btn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Find = new System.Windows.Forms.Button();
@@ -60,10 +66,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 54);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1053, 1040);
+            this.pictureBox1.Size = new System.Drawing.Size(486, 520);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -75,8 +80,7 @@
             this.clearToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(13, 4, 0, 4);
-            this.menuStrip1.Size = new System.Drawing.Size(1515, 46);
+            this.menuStrip1.Size = new System.Drawing.Size(699, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -84,68 +88,106 @@
             // 
             this.clearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BezierStripMenuItem1,
-            this.lineToolStripMenuItem});
+            this.lineToolStripMenuItem,
+            this.curve2BezierToolStripMenuItem,
+            this.curve2LineToolStripMenuItem});
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(79, 38);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.clearToolStripMenuItem.Text = "Type";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearALL);
             // 
             // BezierStripMenuItem1
             // 
             this.BezierStripMenuItem1.Name = "BezierStripMenuItem1";
-            this.BezierStripMenuItem1.Size = new System.Drawing.Size(269, 38);
-            this.BezierStripMenuItem1.Text = "Bezier";
-            this.BezierStripMenuItem1.Click += new System.EventHandler(this.BezierStripMenuItem1_Click);
+            this.BezierStripMenuItem1.Size = new System.Drawing.Size(150, 22);
+            this.BezierStripMenuItem1.Text = "Curve1 Bezier";
+            this.BezierStripMenuItem1.Click += new System.EventHandler(this.curve1BezierMenuItem1_Click);
             // 
             // lineToolStripMenuItem
             // 
             this.lineToolStripMenuItem.Name = "lineToolStripMenuItem";
-            this.lineToolStripMenuItem.Size = new System.Drawing.Size(269, 38);
-            this.lineToolStripMenuItem.Text = "Line";
-            this.lineToolStripMenuItem.Click += new System.EventHandler(this.lineToolStripMenuItem_Click);
+            this.lineToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.lineToolStripMenuItem.Text = "Curve1 Line";
+            this.lineToolStripMenuItem.Click += new System.EventHandler(this.curve1LineMenuItem_Click);
+            // 
+            // curve2BezierToolStripMenuItem
+            // 
+            this.curve2BezierToolStripMenuItem.Name = "curve2BezierToolStripMenuItem";
+            this.curve2BezierToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.curve2BezierToolStripMenuItem.Text = "Curve2 Bezier";
+            this.curve2BezierToolStripMenuItem.Click += new System.EventHandler(this.curve2BezierToolStripMenuItem_Click);
+            // 
+            // curve2LineToolStripMenuItem
+            // 
+            this.curve2LineToolStripMenuItem.Name = "curve2LineToolStripMenuItem";
+            this.curve2LineToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.curve2LineToolStripMenuItem.Text = "Curve2 Line";
+            this.curve2LineToolStripMenuItem.Click += new System.EventHandler(this.curve2LineToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(1066, 54);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabControl1.Location = new System.Drawing.Point(492, 27);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(446, 642);
+            this.tabControl1.Size = new System.Drawing.Size(206, 321);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.richTextBox2);
+            this.tabPage1.Controls.Add(this.T_Line1);
+            this.tabPage1.Controls.Add(this.T_Buzier1);
+            this.tabPage1.Controls.Add(this.Curve1PList);
             this.tabPage1.Controls.Add(this.ClearCurve1Btn);
-            this.tabPage1.Location = new System.Drawing.Point(8, 39);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage1.Size = new System.Drawing.Size(430, 595);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(198, 295);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Curve1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // richTextBox2
+            // T_Line1
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(7, 74);
-            this.richTextBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(401, 500);
-            this.richTextBox2.TabIndex = 11;
-            this.richTextBox2.Text = "";
+            this.T_Line1.AutoSize = true;
+            this.T_Line1.Location = new System.Drawing.Point(63, 38);
+            this.T_Line1.Name = "T_Line1";
+            this.T_Line1.Size = new System.Drawing.Size(44, 16);
+            this.T_Line1.TabIndex = 13;
+            this.T_Line1.Text = "Line";
+            this.T_Line1.UseVisualStyleBackColor = true;
+            this.T_Line1.Click += new System.EventHandler(this.curve1LineMenuItem_Click);
+            // 
+            // T_Buzier1
+            // 
+            this.T_Buzier1.AutoSize = true;
+            this.T_Buzier1.Checked = true;
+            this.T_Buzier1.Location = new System.Drawing.Point(3, 38);
+            this.T_Buzier1.Name = "T_Buzier1";
+            this.T_Buzier1.Size = new System.Drawing.Size(54, 16);
+            this.T_Buzier1.TabIndex = 12;
+            this.T_Buzier1.TabStop = true;
+            this.T_Buzier1.Text = "Buzier";
+            this.T_Buzier1.UseVisualStyleBackColor = true;
+            this.T_Buzier1.Click += new System.EventHandler(this.curve1BezierMenuItem1_Click);
+            // 
+            // Curve1PList
+            // 
+            this.Curve1PList.Location = new System.Drawing.Point(3, 67);
+            this.Curve1PList.Name = "Curve1PList";
+            this.Curve1PList.ReadOnly = true;
+            this.Curve1PList.Size = new System.Drawing.Size(187, 222);
+            this.Curve1PList.TabIndex = 11;
+            this.Curve1PList.Text = "";
             // 
             // ClearCurve1Btn
             // 
-            this.ClearCurve1Btn.Location = new System.Drawing.Point(7, 10);
-            this.ClearCurve1Btn.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ClearCurve1Btn.Location = new System.Drawing.Point(3, 5);
             this.ClearCurve1Btn.Name = "ClearCurve1Btn";
-            this.ClearCurve1Btn.Size = new System.Drawing.Size(405, 52);
+            this.ClearCurve1Btn.Size = new System.Drawing.Size(187, 26);
             this.ClearCurve1Btn.TabIndex = 1;
             this.ClearCurve1Btn.Text = "Clear Curve1";
             this.ClearCurve1Btn.UseVisualStyleBackColor = true;
@@ -153,33 +195,56 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.richTextBox3);
+            this.tabPage2.Controls.Add(this.T_Line2);
+            this.tabPage2.Controls.Add(this.T_Buzier2);
+            this.tabPage2.Controls.Add(this.Curve2PList);
             this.tabPage2.Controls.Add(this.ClearCurve2Btn);
-            this.tabPage2.Location = new System.Drawing.Point(8, 39);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage2.Size = new System.Drawing.Size(430, 595);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(198, 295);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Curve2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // richTextBox3
+            // T_Line2
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(7, 74);
-            this.richTextBox3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(401, 500);
-            this.richTextBox3.TabIndex = 12;
-            this.richTextBox3.Text = "";
+            this.T_Line2.AutoSize = true;
+            this.T_Line2.Location = new System.Drawing.Point(66, 37);
+            this.T_Line2.Name = "T_Line2";
+            this.T_Line2.Size = new System.Drawing.Size(44, 16);
+            this.T_Line2.TabIndex = 15;
+            this.T_Line2.Text = "Line";
+            this.T_Line2.UseVisualStyleBackColor = true;
+            this.T_Line2.Click += new System.EventHandler(this.curve2LineToolStripMenuItem_Click);
+            // 
+            // T_Buzier2
+            // 
+            this.T_Buzier2.AutoSize = true;
+            this.T_Buzier2.Checked = true;
+            this.T_Buzier2.Location = new System.Drawing.Point(6, 37);
+            this.T_Buzier2.Name = "T_Buzier2";
+            this.T_Buzier2.Size = new System.Drawing.Size(54, 16);
+            this.T_Buzier2.TabIndex = 14;
+            this.T_Buzier2.TabStop = true;
+            this.T_Buzier2.Text = "Buzier";
+            this.T_Buzier2.UseVisualStyleBackColor = true;
+            this.T_Buzier2.Click += new System.EventHandler(this.curve2BezierToolStripMenuItem_Click);
+            // 
+            // Curve2PList
+            // 
+            this.Curve2PList.Location = new System.Drawing.Point(3, 61);
+            this.Curve2PList.Name = "Curve2PList";
+            this.Curve2PList.ReadOnly = true;
+            this.Curve2PList.Size = new System.Drawing.Size(187, 228);
+            this.Curve2PList.TabIndex = 12;
+            this.Curve2PList.Text = "";
             // 
             // ClearCurve2Btn
             // 
-            this.ClearCurve2Btn.Location = new System.Drawing.Point(7, 10);
-            this.ClearCurve2Btn.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ClearCurve2Btn.Location = new System.Drawing.Point(3, 5);
             this.ClearCurve2Btn.Name = "ClearCurve2Btn";
-            this.ClearCurve2Btn.Size = new System.Drawing.Size(405, 52);
+            this.ClearCurve2Btn.Size = new System.Drawing.Size(187, 26);
             this.ClearCurve2Btn.TabIndex = 2;
             this.ClearCurve2Btn.Text = "Clear Curve2";
             this.ClearCurve2Btn.UseVisualStyleBackColor = true;
@@ -187,10 +252,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(15, 6);
-            this.button1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button1.Location = new System.Drawing.Point(7, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(405, 52);
+            this.button1.Size = new System.Drawing.Size(187, 26);
             this.button1.TabIndex = 7;
             this.button1.Text = "Clear ALL";
             this.button1.UseVisualStyleBackColor = true;
@@ -198,10 +262,9 @@
             // 
             // Find
             // 
-            this.Find.Location = new System.Drawing.Point(15, 64);
-            this.Find.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Find.Location = new System.Drawing.Point(7, 32);
             this.Find.Name = "Find";
-            this.Find.Size = new System.Drawing.Size(405, 52);
+            this.Find.Size = new System.Drawing.Size(187, 26);
             this.Find.TabIndex = 8;
             this.Find.Text = "Find intersection point";
             this.Find.UseVisualStyleBackColor = true;
@@ -215,39 +278,36 @@
             this.panel1.Controls.Add(this.debug);
             this.panel1.Controls.Add(this.Find);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Location = new System.Drawing.Point(1070, 700);
-            this.panel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel1.Location = new System.Drawing.Point(494, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(433, 394);
+            this.panel1.Size = new System.Drawing.Size(200, 197);
             this.panel1.TabIndex = 9;
             // 
             // richTextBox1
             // 
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.richTextBox1.Location = new System.Drawing.Point(17, 154);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.richTextBox1.Location = new System.Drawing.Point(8, 77);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(394, 230);
+            this.richTextBox1.Size = new System.Drawing.Size(184, 117);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
             // debug
             // 
             this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(13, 124);
-            this.debug.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.debug.Location = new System.Drawing.Point(6, 62);
             this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(64, 24);
+            this.debug.Size = new System.Drawing.Size(33, 12);
             this.debug.TabIndex = 9;
             this.debug.Text = "label3";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1515, 1094);
+            this.ClientSize = new System.Drawing.Size(699, 522);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
@@ -255,7 +315,6 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "Form1";
             this.Text = "numm-Bézier curve generator";
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
@@ -264,7 +323,9 @@
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -286,10 +347,16 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label debug;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox Curve1PList;
+        private System.Windows.Forms.RichTextBox Curve2PList;
         private System.Windows.Forms.ToolStripMenuItem BezierStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
+        private System.Windows.Forms.RadioButton T_Line1;
+        private System.Windows.Forms.RadioButton T_Buzier1;
+        private System.Windows.Forms.RadioButton T_Line2;
+        private System.Windows.Forms.RadioButton T_Buzier2;
+        private System.Windows.Forms.ToolStripMenuItem curve2BezierToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem curve2LineToolStripMenuItem;
     }
 }
 

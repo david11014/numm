@@ -20,7 +20,7 @@ namespace numm
         Bezier B2 = new Bezier();
         bool draw1 = false;
         bool draw2 = false;
-        int FitType = 0;
+        //int FitType1 = 0, FitType2 = 0;
 
         public Form1()
         {
@@ -31,8 +31,8 @@ namespace numm
             B2.CurveCo = Color.FromArgb(255,0 ,0,0);
             intersectionPCo = Color.FromArgb(255, 255, 180, 85);
 
-            richTextBox2.Text = B1.listP();
-            richTextBox3.Text = B2.listP();
+            Curve1PList.Text = B1.listP();
+            Curve2PList.Text = B2.listP();
             G = pictureBox1.CreateGraphics();
             
             debug.Text = "";
@@ -45,28 +45,19 @@ namespace numm
             {
                 case MouseButtons.Left:
 
-
                     if (tabControl1.SelectedIndex == 0)
                     {
                         B1.addP(new PointF(e.X, e.Y));
-                        if (draw1)
-                        {
-                            ClearCurve1();
-                            draw1 = false;
-                        }
+                        ClearCurve1();                       
                     }
                     else
                     {
                         B2.addP(new PointF(e.X, e.Y));
-                        if (draw2)
-                        {
-                            ClearCurve2();
-                            draw2 = false;
-                        }
+                        ClearCurve2();
                     }
 
-                    richTextBox2.Text = B1.listP();
-                    richTextBox3.Text = B2.listP();
+                    Curve1PList.Text = B1.listP();
+                    Curve2PList.Text = B2.listP();
                     DrawP(B1.CtrlPoint, B1.PointCo);
                     DrawP(B2.CtrlPoint, B2.PointCo);
                     break;
@@ -74,14 +65,14 @@ namespace numm
                     G = pictureBox1.CreateGraphics();
                     if (tabControl1.SelectedIndex == 0)
                     {
-                        // ClearCurve2();
-                        Bezier_curve(B1);
+                        ClearCurve1();
+                        Generate_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
-                        //  ClearCurve1();
-                        Bezier_curve(B2);
+                        ClearCurve2();
+                        Generate_curve(B2);
                         draw2 = true;
                     }
 
@@ -90,20 +81,12 @@ namespace numm
         }
 
         // Draw the Bezier curve 
-        void Bezier_curve(Bezier b)  
+        void Generate_curve(Bezier b)  
         {
-            switch (FitType) {
-                case 0:
-                    b.BezierCalculate();
-                break;
-                case 1:
-                    b.Line_Calculate();
-                    break;
-            }        
-                      
+            b.CalcuateCurve(b.Type);
             Pen pen_line = new Pen(b.CurveCo);
-            for (int i = 0; i < (b.Point_Bezier.Count - 1); i++)
-                G.DrawLine(pen_line, b.Point_Bezier[i], b.Point_Bezier[i + 1]);             
+            for (int i = 0; i < (b.Point_Curve.Count - 1); i++)
+                G.DrawLine(pen_line, b.Point_Curve[i], b.Point_Curve[i + 1]);             
         }
 
         //draw muti point
@@ -146,19 +129,25 @@ namespace numm
         void ClearCurve1()
         {
             G.Clear(Color.White);
-            B1.Point_Bezier.Clear();
+            B1.Point_Curve.Clear();
+            Curve1PList.Text = B1.listP();
+
+            DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
-            Bezier_curve(B2);
-            richTextBox2.Text = B1.listP();
+            Generate_curve(B2);
+            
         }
 
         void ClearCurve2()
         {
             G.Clear(Color.White);
-            B2.Point_Bezier.Clear();
+            B2.Point_Curve.Clear();
+            Curve2PList.Text = B2.listP();
+
             DrawP(B1.CtrlPoint, B1.PointCo);
-            Bezier_curve(B1);
-            richTextBox3.Text = B2.listP();
+            DrawP(B2.CtrlPoint, B2.PointCo);
+            Generate_curve(B1);
+            
         }
 
         private void ClearALL(object sender, EventArgs e)
@@ -166,29 +155,32 @@ namespace numm
             G.Clear(Color.White);
             B1.clear();
             B2.clear();
-            richTextBox2.Text = B1.listP();
-            richTextBox3.Text = B2.listP();
+            Curve1PList.Text = B1.listP();
+            Curve2PList.Text = B2.listP();
         }
 
         private void ClearCurve1Btn_Click(object sender, EventArgs e)
         {
             G.Clear(Color.White);
             B1.clear();
+            Curve1PList.Text = B1.listP();
+
             DrawP(B2.CtrlPoint, B2.PointCo);
-            Bezier_curve(B2);
-            richTextBox2.Text = B1.listP();
+            Generate_curve(B2);
+            
         }
 
         private void ClearCurve2Btn_Click(object sender, EventArgs e)
         {
             G.Clear(Color.White);
             B2.clear();
+            Curve2PList.Text = B2.listP();
+
             DrawP(B1.CtrlPoint, B1.PointCo);
-            Bezier_curve(B1);
-            richTextBox3.Text = B2.listP();
+            Generate_curve(B1);
+            
         }
-
-
+        
         //find intersect
         private void Find_Click(object sender, EventArgs e)
         {
@@ -196,10 +188,10 @@ namespace numm
             
             List<PointF> intersectionP = new List<PointF>();
            
-            for(int j=0; j < B1.Point_Bezier.Count-1; j++)
-                for (int k = 0; k < B2.Point_Bezier.Count - 1; k++)
-                    if (intersect(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]))
-                        intersectionP.Add(intersection(B1.Point_Bezier[j], B1.Point_Bezier[j + 1], B2.Point_Bezier[k], B2.Point_Bezier[k + 1]));           
+            for(int j=0; j < B1.Point_Curve.Count-1; j++)
+                for (int k = 0; k < B2.Point_Curve.Count - 1; k++)
+                    if (intersect(B1.Point_Curve[j], B1.Point_Curve[j + 1], B2.Point_Curve[k], B2.Point_Curve[k + 1]))
+                        intersectionP.Add(intersection(B1.Point_Curve[j], B1.Point_Curve[j + 1], B2.Point_Curve[k], B2.Point_Curve[k + 1]));           
 
             //display the point
             DrawP(intersectionP, intersectionPCo,8);
@@ -259,37 +251,48 @@ namespace numm
             return (a.X - o.X) * (b.Y - o.Y) - (a.Y - o.Y) * (b.X - o.X);
         }
 
+
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             G = pictureBox1.CreateGraphics();
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
             if (draw1 == true)
-                Bezier_curve(B1);
+                Generate_curve(B1);
 
             if (draw2 == true)
-                Bezier_curve(B2);
+                Generate_curve(B2);
         }
 
-        private void BezierStripMenuItem1_Click(object sender, EventArgs e)
+        private void curve1BezierMenuItem1_Click(object sender, EventArgs e)
         {
-            FitType = 0;
+            B1.Type = 0;            
         }
 
-        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
+        private void curve2BezierToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FitType = 1;
+            B2.Type = 0;
+        }       
+
+        private void curve1LineMenuItem_Click(object sender, EventArgs e)
+        {
+            B1.Type = 1;
+        }
+
+        private void curve2LineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            B2.Type = 1;
         }
     }
 
     public class Bezier
     {
         public List<PointF> CtrlPoint = new List<PointF>();
-        public List<PointF> Point_Bezier = new List<PointF>();
+        public List<PointF> Point_Curve = new List<PointF>();
 
         public Color PointCo = Color.Red;
         public Color CurveCo = Color.Blue;
-
+        public int Type = 0; // 0: Buzier 1: Line
         float h = 0.001f; // Resolution of each point
 
         public Bezier()
@@ -297,9 +300,30 @@ namespace numm
 
         }
 
-        public void BezierCalculate() // Calculate each point of Bezier curve
+        public void CalcuateCurve()
         {
-            Point_Bezier.Clear();
+            switch(Type)
+            {
+                //Buzier
+                case 0:
+                    BezierCalculate();
+                    break;
+                //line
+                case 1:
+                    Line_Calculate();
+                    break;
+            }
+        }
+
+        public void CalcuateCurve(int T)
+        {
+            Type = T;
+            CalcuateCurve();
+        }
+
+        void BezierCalculate() // Calculate each point of Bezier curve
+        {
+            Point_Curve.Clear();
             PointF[,] Stack = new PointF[CtrlPoint.Count, CtrlPoint.Count];
             if (CtrlPoint.Count != 0)
             {
@@ -308,14 +332,37 @@ namespace numm
 
                 for (float u = 0; u <= 1; u = u + h)
                 {
+                    /*
                     for (int j = 0; j < (CtrlPoint.Count - 1); j++)
                     {
                         for (int i = 0; i < (CtrlPoint.Count - 1); i++)
                             Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
-                    }
-                    Point_Bezier.Add(Stack[0, (CtrlPoint.Count - 1)]);
+                    }*/
+                    Point_Curve.Add(getPoint(u));
                 }
             }
+        }
+
+        void Line_Calculate() // Calculate each point of Line curve
+        {
+            Point_Curve.Clear();
+
+            Point_Curve =   CtrlPoint.ToList();
+            /*
+           PointF[] Stack = new PointF[CtrlPoint.Count];
+            if (CtrlPoint.Count != 0)
+            {
+                for (int i = 0; i < CtrlPoint.Count; i++)
+                    Stack[i] = CtrlPoint[i];
+
+                for (int i = 0; i < (CtrlPoint.Count - 1); i++)
+                {
+                    for (float u = 0; u <= 1; u = u + h)
+                    {
+                        Point_Curve.Add(new PointF(u * Stack[i + 1].X + (1 - u) * Stack[i].X, u * Stack[i + 1].Y + (1 - u) * Stack[i].Y));
+                    }
+                }
+            }*/
         }
 
         public PointF getPoint(float u)
@@ -360,29 +407,10 @@ namespace numm
         public void clear()
         {
             CtrlPoint.Clear();
-            Point_Bezier.Clear();
+            Point_Curve.Clear();
         }
         
-        public void Line_Calculate()
-        {
-            Point_Bezier.Clear();
-            PointF[] Stack = new PointF[CtrlPoint.Count];
-            if (CtrlPoint.Count != 0)
-            {
-                for (int i = 0; i < CtrlPoint.Count; i++)
-                    Stack[i] = CtrlPoint[i];
-
-                for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                {
-                    for (float u = 0; u <= 1; u = u + h)
-                    {
-                        Point_Bezier.Add(new PointF(u * Stack[i + 1].X + (1 - u) * Stack[i].X, u * Stack[i + 1].Y + (1 - u) * Stack[i].Y));
-                    }
-                }
-            }
-                
-
-        }
+        
     }
 
     public class Vector
