@@ -25,6 +25,9 @@ namespace numm
         public Form1()
         {
             InitializeComponent();
+
+            B1.name = "Curve1";
+            B2.name = "Curve2";
             B1.PointCo = Color.FromArgb(255, 234, 87, 50); 
             B1.CurveCo = Color.FromArgb(255, 54, 132, 193);
             B2.PointCo = Color.FromArgb(255, 92, 149, 74);
@@ -210,8 +213,13 @@ namespace numm
             DrawP(intersectionP, intersectionPCo,8);
 
             richTextBox1.Text += "Find " + intersectionP.Count.ToString() + " point.\n";
+            int i = 1;
             foreach (PointF p in intersectionP)
-                richTextBox1.Text += "P = " + p.ToString() + "\n";
+            {
+                richTextBox1.Text += "P" + i.ToString() + " " + p.ToString() + "\n";
+                i++;
+            }
+                
                        
         }
 
@@ -317,10 +325,16 @@ namespace numm
         {
             B2.Type = 1;
         }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            MouseLocation.Text = e.X.ToString() + ", " + e.Y.ToString();
+        }
     }
 
     public class Bezier
     {
+        public string name = "";
         public List<PointF> CtrlPoint = new List<PointF>();
         public List<PointF> Point_Curve = new List<PointF>();
 
@@ -432,9 +446,11 @@ namespace numm
 
         public string listP()
         {
-            string s = "Number: ";
+            string s = "";
 
-            s += CtrlPoint.Count.ToString() + "\nPoint:\n";
+            s += name + "\n"; 
+            s += "Have " + CtrlPoint.Count.ToString() + " control point\n";
+            s += "Point list:\n";
 
             foreach (PointF p in CtrlPoint)
             {
