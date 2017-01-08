@@ -73,14 +73,14 @@ namespace numm
                     G = pictureBox1.CreateGraphics();
                     if (tabControl1.SelectedIndex == 0)
                     {
-                        ClearCurve1();
+                        //ClearCurve1();
                         B1.CalcuateCurve(B1.Type);
                         Generate_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
-                        ClearCurve2();
+                        //ClearCurve2();
                         B2.CalcuateCurve(B2.Type);
                         Generate_curve(B2);
                         draw2 = true;
@@ -401,7 +401,10 @@ namespace numm
 
         public void addP(PointF a)
         {
-            CtrlPoint.Add(a);
+            if (CtrlPoint.Count==0)
+                CtrlPoint.Add(a);
+            else if (a != CtrlPoint[CtrlPoint.Count-1])
+                CtrlPoint.Add(a);
         }
 
         public string listP()
