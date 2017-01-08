@@ -73,14 +73,14 @@ namespace numm
                     G = pictureBox1.CreateGraphics();
                     if (tabControl1.SelectedIndex == 0)
                     {
-                        //ClearCurve1();
+                        ClearCurve1();
                         B1.CalcuateCurve(B1.Type);
                         Generate_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
-                        //ClearCurve2();
+                        ClearCurve2();
                         B2.CalcuateCurve(B2.Type);
                         Generate_curve(B2);
                         draw2 = true;
@@ -219,6 +219,21 @@ namespace numm
         bool intersect(PointF a1, PointF a2, PointF b1, PointF b2)
         {
 
+            if(a1==a2)
+            {
+                if ((distance(a1, b1) + distance(a1, b2)) - distance(b1, b2) < 0.001)
+                    return true;
+
+                return false;
+            }
+            if(b1==b2)
+            {
+                if ((distance(a1, b1) + distance(a2, b1)) - distance(a1, a2) < 0.001)
+                    return true;
+
+                return false;
+            }
+
             float c1 = cross(a1, a2, b1);
             float c2 = cross(a1, a2, b2);
             float c3 = cross(b1, b2, a1);
@@ -237,6 +252,12 @@ namespace numm
         //計算交點
         PointF intersection(PointF a1, PointF a2, PointF b1, PointF b2)
         {
+            if (a1 == a2)
+                return a1;
+            if (b1 == b2)
+                return b1;
+
+
             float[] a = new float[2], b = new float[2];
 
             a[0] = (a1.Y - a2.Y) / (a1.X - a2.X);
@@ -401,10 +422,12 @@ namespace numm
 
         public void addP(PointF a)
         {
+            CtrlPoint.Add(a);
+            /*
             if (CtrlPoint.Count==0)
                 CtrlPoint.Add(a);
             else if (a != CtrlPoint[CtrlPoint.Count-1])
-                CtrlPoint.Add(a);
+                CtrlPoint.Add(a);*/
         }
 
         public string listP()
