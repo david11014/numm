@@ -20,7 +20,7 @@ namespace numm
         Bezier B2 = new Bezier();
         bool draw1 = false;
         bool draw2 = false;
-        //int FitType1 = 0, FitType2 = 0;
+        bool MU = false;
 
         public Form1()
         {
@@ -39,11 +39,15 @@ namespace numm
             G = pictureBox1.CreateGraphics();
             
             debug.Text = "";
+            MouseLoc.Text = "";
+            MouseLoc.ForeColor = Color.Black;
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-
+            
+            timer1.Enabled = true;
+            MU = true;
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -78,14 +82,14 @@ namespace numm
                     {
                         ClearCurve1();
                         B1.CalcuateCurve(B1.Type);
-                        Generate_curve(B1);
+                        Draw_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
                         ClearCurve2();
                         B2.CalcuateCurve(B2.Type);
-                        Generate_curve(B2);
+                        Draw_curve(B2);
                         draw2 = true;
                     }
 
@@ -94,8 +98,8 @@ namespace numm
         }
 
         // Draw the Bezier curve 
-        void Generate_curve(Bezier b)          {
-            
+        void Draw_curve(Bezier b)
+        {            
             Pen pen_line = new Pen(b.CurveCo);
             for (int i = 0; i < (b.Point_Curve.Count - 1); i++)
                 G.DrawLine(pen_line, b.Point_Curve[i], b.Point_Curve[i + 1]);             
@@ -148,7 +152,7 @@ namespace numm
             //replot  
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
-            Generate_curve(B2);
+            Draw_curve(B2);
             
         }
 
@@ -162,7 +166,7 @@ namespace numm
             //replot  
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
-            Generate_curve(B1);
+            Draw_curve(B1);
             
         }
 
@@ -182,7 +186,7 @@ namespace numm
             Curve1PList.Text = B1.listP();
 
             DrawP(B2.CtrlPoint, B2.PointCo);
-            Generate_curve(B2);
+            Draw_curve(B2);
             
         }
 
@@ -193,7 +197,7 @@ namespace numm
             Curve2PList.Text = B2.listP();
 
             DrawP(B1.CtrlPoint, B1.PointCo);
-            Generate_curve(B1);
+            Draw_curve(B1);
             
         }
         
@@ -216,7 +220,7 @@ namespace numm
             int i = 1;
             foreach (PointF p in intersectionP)
             {
-                richTextBox1.Text += "P" + i.ToString() + " " + p.ToString() + "\n";
+                richTextBox1.Text += "P" + i.ToString() + " X: " + p.X.ToString() + "\tY: " + p.Y.ToString() + "\n";
                 i++;
             }
                 
@@ -226,7 +230,6 @@ namespace numm
         //交點判斷
         bool intersect(PointF a1, PointF a2, PointF b1, PointF b2)
         {
-
             if(a1==a2)
             {
                 if ((distance(a1, b1) + distance(a1, b2)) - distance(b1, b2) < 0.001)
@@ -265,7 +268,6 @@ namespace numm
             if (b1 == b2)
                 return b1;
 
-
             float[] a = new float[2], b = new float[2];
 
             a[0] = (a1.Y - a2.Y) / (a1.X - a2.X);
@@ -300,10 +302,10 @@ namespace numm
             DrawP(B1.CtrlPoint, B1.PointCo);
             DrawP(B2.CtrlPoint, B2.PointCo);
             if (draw1 == true)
-                Generate_curve(B1);
+                Draw_curve(B1);
 
             if (draw2 == true)
-                Generate_curve(B2);
+                Draw_curve(B2);
         }
 
         private void curve1BezierMenuItem1_Click(object sender, EventArgs e)
@@ -328,7 +330,27 @@ namespace numm
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            MouseLocation.Text = e.X.ToString() + ", " + e.Y.ToString();
+            if (MouseLoc.ForeColor != Color.Red || !MU)
+                MouseLoc.Text = e.X.ToString() + ", " + e.Y.ToString();
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            timer1.Enabled = false;
+            MU = false;
+            MouseLoc.ForeColor = Color.Red;            
+            MouseLoc.Text = e.X.ToString() + ", " + e.Y.ToString();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            MouseLoc.ForeColor = Color.Black;
+            timer1.Enabled=false;
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            MouseLoc.Text = "0,0";
         }
     }
 
@@ -341,7 +363,7 @@ namespace numm
         public Color PointCo = Color.Red;
         public Color CurveCo = Color.Blue;
         public int Type = 0; // 0: Buzier 1: Line
-        float h = 0.001f; // Resolution of each point
+        float h = 0.01f; // Resolution of each point
 
         public Bezier()
         {
@@ -350,7 +372,8 @@ namespace numm
 
         public void CalcuateCurve()
         {
-            switch(Type)
+            Point_Curve.Clear();
+            switch (Type)
             {
                 //Buzier
                 case 0:
@@ -370,65 +393,33 @@ namespace numm
         }
 
         void BezierCalculate() // Calculate each point of Bezier curve
-        {
-            Point_Curve.Clear();
+        {            
             PointF[,] Stack = new PointF[CtrlPoint.Count, CtrlPoint.Count];
             if (CtrlPoint.Count != 0)
-            {
-                for (int i = 0; i < CtrlPoint.Count; i++)
-                    Stack[i, 0] = CtrlPoint[i];
-
-                for (float u = 0; u <= 1; u = u + h)
-                {
-                    /*
-                    for (int j = 0; j < (CtrlPoint.Count - 1); j++)
-                    {
-                        for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                            Stack[i, j + 1] = new PointF((1 - u) * Stack[i + 1, j].X + u * Stack[i, j].X, (1 - u) * Stack[i + 1, j].Y + u * Stack[i, j].Y);
-                    }*/
-                    Point_Curve.Add(getPoint(u));
-                }
-            }
+                for (float u = 0; u <= 1; u += h)                
+                    Point_Curve.Add(getP(u));
         }
 
         void Line_Calculate() // Calculate each point of Line curve
-        {
-            Point_Curve.Clear();
-
+        {            
             Point_Curve =   CtrlPoint.ToList();
-            /*
-           PointF[] Stack = new PointF[CtrlPoint.Count];
-            if (CtrlPoint.Count != 0)
-            {
-                for (int i = 0; i < CtrlPoint.Count; i++)
-                    Stack[i] = CtrlPoint[i];
-
-                for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                {
-                    for (float u = 0; u <= 1; u = u + h)
-                    {
-                        Point_Curve.Add(new PointF(u * Stack[i + 1].X + (1 - u) * Stack[i].X, u * Stack[i + 1].Y + (1 - u) * Stack[i].Y));
-                    }
-                }
-            }*/
         }
 
-        public PointF getPoint(float u)
+        public PointF getP(float u)
         {
-            PointF[,] Stack = new PointF[CtrlPoint.Count, CtrlPoint.Count];
+            int Count = CtrlPoint.Count;
+            PointF[,] Stack = new PointF[Count, Count];
 
-            if (CtrlPoint.Count != 0)
+            if (Count != 0)
             {
-                for (int i = 0; i < CtrlPoint.Count; i++)
+                for (int i = 0; i < Count; i++)
                     Stack[i, 0] = CtrlPoint[i];
  
-                for (int j = 0; j < (CtrlPoint.Count - 1); j++)
-                {
-                    for (int i = 0; i < (CtrlPoint.Count - 1); i++)
-                        Stack[i, j + 1] = new PointF(u * Stack[i + 1, j].X + (1-u) * Stack[i, j].X, u * Stack[i + 1, j].Y + (1-u) * Stack[i, j].Y);
-                } 
+                for (int j = 0; j < (Count - 1); j++)                
+                    for (int i = 0; i < (Count - 1); i++)
+                        Stack[i, j + 1] = new PointF(u * Stack[i + 1, j].X + (1-u) * Stack[i, j].X, u * Stack[i + 1, j].Y + (1-u) * Stack[i, j].Y);                 
 
-                return Stack[0, (CtrlPoint.Count - 1)];
+                return Stack[0, (Count - 1)];
             }
             else
                 return new PointF(0, 0);
@@ -437,11 +428,7 @@ namespace numm
         public void addP(PointF a)
         {
             CtrlPoint.Add(a);
-            /*
-            if (CtrlPoint.Count==0)
-                CtrlPoint.Add(a);
-            else if (a != CtrlPoint[CtrlPoint.Count-1])
-                CtrlPoint.Add(a);*/
+            return;      
         }
 
         public string listP()
@@ -454,7 +441,7 @@ namespace numm
 
             foreach (PointF p in CtrlPoint)
             {
-                s += p.ToString() + '\n';
+                s += "X: " + p.X.ToString() + "\tY: " + p.Y.ToString() + '\n';
             }
             return s;
         }
@@ -463,6 +450,7 @@ namespace numm
         {
             CtrlPoint.Clear();
             Point_Curve.Clear();
+            return;
         }
                 
     }

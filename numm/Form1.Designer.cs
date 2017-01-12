@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -46,15 +47,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.debug = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.MouseLocation = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MouseLoc = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -65,9 +64,11 @@
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Location = new System.Drawing.Point(3, 8);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(486, 508);
+            this.pictureBox1.Size = new System.Drawing.Size(486, 530);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
@@ -76,11 +77,12 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(492, 8);
+            this.tabControl1.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(492, 45);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(206, 340);
+            this.tabControl1.Size = new System.Drawing.Size(206, 303);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
@@ -89,10 +91,10 @@
             this.tabPage1.Controls.Add(this.T_Buzier1);
             this.tabPage1.Controls.Add(this.Curve1PList);
             this.tabPage1.Controls.Add(this.ClearCurve1Btn);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(198, 314);
+            this.tabPage1.Size = new System.Drawing.Size(198, 274);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Curve1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -102,7 +104,7 @@
             this.T_Line1.AutoSize = true;
             this.T_Line1.Location = new System.Drawing.Point(66, 37);
             this.T_Line1.Name = "T_Line1";
-            this.T_Line1.Size = new System.Drawing.Size(44, 16);
+            this.T_Line1.Size = new System.Drawing.Size(49, 20);
             this.T_Line1.TabIndex = 13;
             this.T_Line1.Text = "Line";
             this.T_Line1.UseVisualStyleBackColor = true;
@@ -114,7 +116,7 @@
             this.T_Buzier1.Checked = true;
             this.T_Buzier1.Location = new System.Drawing.Point(6, 37);
             this.T_Buzier1.Name = "T_Buzier1";
-            this.T_Buzier1.Size = new System.Drawing.Size(54, 16);
+            this.T_Buzier1.Size = new System.Drawing.Size(60, 20);
             this.T_Buzier1.TabIndex = 12;
             this.T_Buzier1.TabStop = true;
             this.T_Buzier1.Text = "Buzier";
@@ -126,7 +128,7 @@
             this.Curve1PList.Location = new System.Drawing.Point(5, 59);
             this.Curve1PList.Name = "Curve1PList";
             this.Curve1PList.ReadOnly = true;
-            this.Curve1PList.Size = new System.Drawing.Size(188, 249);
+            this.Curve1PList.Size = new System.Drawing.Size(188, 209);
             this.Curve1PList.TabIndex = 11;
             this.Curve1PList.Text = "";
             // 
@@ -146,10 +148,10 @@
             this.tabPage2.Controls.Add(this.T_Buzier2);
             this.tabPage2.Controls.Add(this.Curve2PList);
             this.tabPage2.Controls.Add(this.ClearCurve2Btn);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(198, 314);
+            this.tabPage2.Size = new System.Drawing.Size(198, 274);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Curve2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -159,7 +161,7 @@
             this.T_Line2.AutoSize = true;
             this.T_Line2.Location = new System.Drawing.Point(66, 37);
             this.T_Line2.Name = "T_Line2";
-            this.T_Line2.Size = new System.Drawing.Size(44, 16);
+            this.T_Line2.Size = new System.Drawing.Size(49, 20);
             this.T_Line2.TabIndex = 15;
             this.T_Line2.Text = "Line";
             this.T_Line2.UseVisualStyleBackColor = true;
@@ -171,7 +173,7 @@
             this.T_Buzier2.Checked = true;
             this.T_Buzier2.Location = new System.Drawing.Point(6, 37);
             this.T_Buzier2.Name = "T_Buzier2";
-            this.T_Buzier2.Size = new System.Drawing.Size(54, 16);
+            this.T_Buzier2.Size = new System.Drawing.Size(60, 20);
             this.T_Buzier2.TabIndex = 14;
             this.T_Buzier2.TabStop = true;
             this.T_Buzier2.Text = "Buzier";
@@ -222,64 +224,58 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.richTextBox1);
-            this.panel1.Controls.Add(this.debug);
             this.panel1.Controls.Add(this.Find);
             this.panel1.Controls.Add(this.button1);
+            this.panel1.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(494, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 166);
+            this.panel1.Size = new System.Drawing.Size(200, 188);
             this.panel1.TabIndex = 9;
             // 
             // richTextBox1
             // 
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.richTextBox1.Location = new System.Drawing.Point(5, 77);
+            this.richTextBox1.Location = new System.Drawing.Point(5, 64);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(188, 86);
+            this.richTextBox1.Size = new System.Drawing.Size(188, 121);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
             // debug
             // 
             this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(6, 62);
+            this.debug.Location = new System.Drawing.Point(601, 8);
             this.debug.Name = "debug";
             this.debug.Size = new System.Drawing.Size(33, 12);
             this.debug.TabIndex = 9;
             this.debug.Text = "label3";
             // 
-            // statusStrip1
+            // MouseLoc
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.MouseLocation});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 519);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(699, 22);
-            this.statusStrip1.TabIndex = 10;
-            this.statusStrip1.Text = "statusStrip1";
+            this.MouseLoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MouseLoc.AutoSize = true;
+            this.MouseLoc.BackColor = System.Drawing.SystemColors.Control;
+            this.MouseLoc.Font = new System.Drawing.Font("微軟正黑體", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MouseLoc.Location = new System.Drawing.Point(493, 8);
+            this.MouseLoc.Name = "MouseLoc";
+            this.MouseLoc.Size = new System.Drawing.Size(53, 34);
+            this.MouseLoc.TabIndex = 11;
+            this.MouseLoc.Text = "0,0";
             // 
-            // MouseLocation
+            // timer1
             // 
-            this.MouseLocation.Name = "MouseLocation";
-            this.MouseLocation.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.MouseLocation.Size = new System.Drawing.Size(24, 17);
-            this.MouseLocation.Text = "0,0";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(629, 17);
-            this.toolStripStatusLabel1.Spring = true;
+            this.timer1.Interval = 300;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 541);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.MouseLoc);
+            this.Controls.Add(this.debug);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
@@ -295,9 +291,6 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,9 +314,8 @@
         private System.Windows.Forms.RadioButton T_Buzier1;
         private System.Windows.Forms.RadioButton T_Line2;
         private System.Windows.Forms.RadioButton T_Buzier2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel MouseLocation;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Label MouseLoc;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
