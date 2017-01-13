@@ -438,23 +438,25 @@ namespace numm
             float[,] Stack = new float[Count, 2]; //Store x and y
             float a = 0, b = 0, c = 0, dx = 0;
             b = (CtrlPoint[1].Y - CtrlPoint[0].Y) / (CtrlPoint[1].X - CtrlPoint[0].X);
-            float qy = 0, xi = 0;                   
+            float qy = 0, xi = 0;
+            h = 1;                
             if (Count > 1)
             {
                 for (int i = 0; i < (Count-1); i++)
-                {
+                {                    
                     a = CtrlPoint[i].Y;
                     xi = CtrlPoint[i].X;
                     dx = CtrlPoint[i + 1].X - xi;
-                    if (i != 0)                     
-                        c = (CtrlPoint[i + 1].Y - CtrlPoint[i].Y - b * dx) / dx / dx;                    
-                    for (float u = CtrlPoint[i].X; u < CtrlPoint[i + 1].X; u = u + h)
+                    float sign = dx / Math.Abs(dx);                                                 
+                    if (i != 0)
+                        c = (CtrlPoint[i + 1].Y - CtrlPoint[i].Y - b * dx)/(dx * dx);                    
+                    for (float u = xi; Math.Abs(u-xi-dx) > 0 ; u = u + sign * h) 
                     {
-                        qy = a + b * (u - xi) + c * (u - xi) * (u - xi);
+                        qy = a + b * (u - xi) + c * (u - xi) * (u - xi);                        
                         Point_Curve.Add(new PointF(u,qy));
                     }
                     b = b + 2 * c * dx;
-                    
+                                        
                 }               
             }            
         }
