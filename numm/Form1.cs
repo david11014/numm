@@ -80,14 +80,14 @@ namespace numm
                     G = pictureBox1.CreateGraphics();
                     if (tabControl1.SelectedIndex == 0)
                     {
-                        ClearCurve1();
+                        //ClearCurve1();
                         B1.CalcuateCurve(B1.Type);
                         Draw_curve(B1);
                         draw1 = true;
                     }
                     else
                     {
-                        ClearCurve2();
+                        //ClearCurve2();
                         B2.CalcuateCurve(B2.Type);
                         Draw_curve(B2);
                         draw2 = true;
@@ -310,7 +310,7 @@ namespace numm
 
         private void curve1BezierMenuItem1_Click(object sender, EventArgs e)
         {
-            B1.Type = 0;            
+            B1.Type = 0;           
         }
 
         private void curve2BezierToolStripMenuItem_Click(object sender, EventArgs e)
@@ -352,6 +352,30 @@ namespace numm
         {
             MouseLoc.Text = "0,0";
         }
+
+        private void T_Buzier1_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCurve1();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCurve1();
+            if (radioButton1.Checked)
+                B1.Type=2;
+        }
+
+        private void T_Buzier2_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCurve2();
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCurve2();
+            if (radioButton2.Checked)
+                B2.Type = 2;
+        }
     }
 
     public class Bezier
@@ -383,6 +407,9 @@ namespace numm
                 case 1:
                     Line_Calculate();
                     break;
+                case 2:
+                    Quadratic_Calculate();
+                    break;
             }
         }
 
@@ -405,12 +432,39 @@ namespace numm
             Point_Curve =   CtrlPoint.ToList();
         }
 
+        void Quadratic_Calculate() // Calculate each point of Line curve
+        {
+            int Count = CtrlPoint.Count;
+            float[,] Stack = new float[Count, 2]; //Store x and y
+            float a = 0, b = 0, c = 0, dx = 0;
+            b = (CtrlPoint[1].Y - CtrlPoint[0].Y) / (CtrlPoint[1].X - CtrlPoint[0].X);
+            float qy = 0, xi = 0;                   
+            if (Count > 1)
+            {
+                for (int i = 0; i < (Count-1); i++)
+                {
+                    a = CtrlPoint[i].Y;
+                    xi = CtrlPoint[i].X;
+                    dx = CtrlPoint[i + 1].X - xi;
+                    if (i != 0)                     
+                        c = (CtrlPoint[i + 1].Y - CtrlPoint[i].Y - b * dx) / dx / dx;                    
+                    for (float u = CtrlPoint[i].X; u < CtrlPoint[i + 1].X; u = u + h)
+                    {
+                        qy = a + b * (u - xi) + c * (u - xi) * (u - xi);
+                        Point_Curve.Add(new PointF(u,qy));
+                    }
+                    b = b + 2 * c * dx;
+                    
+                }               
+            }            
+        }
+
         public PointF getP(float u)
         {
             int Count = CtrlPoint.Count;
             PointF[,] Stack = new PointF[Count, Count];
 
-            if (Count != 0)
+            if (Count > 1)
             {
                 for (int i = 0; i < Count; i++)
                     Stack[i, 0] = CtrlPoint[i];
@@ -427,7 +481,10 @@ namespace numm
 
         public void addP(PointF a)
         {
-            CtrlPoint.Add(a);
+            if (CtrlPoint.Count == 0)
+                CtrlPoint.Add(a);
+            else if (a != CtrlPoint[CtrlPoint.Count - 1])
+                CtrlPoint.Add(a);
             return;      
         }
 
