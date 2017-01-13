@@ -21,7 +21,7 @@ namespace numm
         bool draw1 = false;
         bool draw2 = false;
         bool MU = false;
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -37,7 +37,15 @@ namespace numm
             Curve1PList.Text = B1.listP();
             Curve2PList.Text = B2.listP();
             G = pictureBox1.CreateGraphics();
-            
+            Pen pen_line = new Pen(Color.FromArgb(255, 0, 0, 0));
+            const int d = 10;
+            for (int i = 0; i < pictureBox1.Width; i += d)
+            {
+                G.DrawLine(pen_line, i, 0, i, pictureBox1.Height);
+                G.DrawLine(pen_line, 0, i, pictureBox1.Width, i);
+            }
+
+             
             debug.Text = "";
             MouseLoc.Text = "";
             MouseLoc.ForeColor = Color.Black;
@@ -103,7 +111,8 @@ namespace numm
             Pen pen_line = new Pen(b.CurveCo);
             for (int i = 0; i < (b.Point_Curve.Count - 1); i++)
                 G.DrawLine(pen_line, b.Point_Curve[i], b.Point_Curve[i + 1]);             
-        }
+        }       
+
 
         //draw muti point
         void DrawP(List<PointF> CP, Color c)
@@ -146,6 +155,7 @@ namespace numm
         {
             //clear
             G.Clear(Color.White);
+             
             B1.Point_Curve.Clear();
             Curve1PList.Text = B1.listP();
 
@@ -160,6 +170,7 @@ namespace numm
         {
             //clear
             G.Clear(Color.White);
+             
             B2.Point_Curve.Clear();
             Curve2PList.Text = B2.listP();
 
@@ -173,6 +184,7 @@ namespace numm
         private void ClearALL(object sender, EventArgs e)
         {
             G.Clear(Color.White);
+             
             B1.clear();
             B2.clear();
             Curve1PList.Text = B1.listP();
@@ -182,6 +194,7 @@ namespace numm
         private void ClearCurve1Btn_Click(object sender, EventArgs e)
         {
             G.Clear(Color.White);
+             
             B1.clear();
             Curve1PList.Text = B1.listP();
 
@@ -193,6 +206,7 @@ namespace numm
         private void ClearCurve2Btn_Click(object sender, EventArgs e)
         {
             G.Clear(Color.White);
+             
             B2.clear();
             Curve2PList.Text = B2.listP();
 
@@ -220,6 +234,10 @@ namespace numm
             int i = 1;
             foreach (PointF p in intersectionP)
             {
+                Brush bb = new SolidBrush(Color.Black);
+                G.DrawString("P" + i.ToString(),
+                    new Font("微軟正黑體", 12, FontStyle.Bold | FontStyle.Italic),
+                    bb, p.X+5, p.Y);
                 richTextBox1.Text += "P" + i.ToString() + " X: " + p.X.ToString() + "\tY: " + p.Y.ToString() + "\n";
                 i++;
             }
@@ -450,13 +468,13 @@ namespace numm
                     
                     for (float u = 0; u < 1; u = u + h)
                     {                        
-                        Point_Curve.Add(getQP(u,P.ToList()));
+                        Point_Curve.Add(getP(u,P.ToList()));
                     }
                 }
             }            
         }
 
-        public PointF getQP(float u,List<PointF> CP)
+        public PointF getP(float u,List<PointF> CP)
         {
             int Count = CP.Count;
             PointF[,] Stack = new PointF[Count, Count];
@@ -478,31 +496,12 @@ namespace numm
 
         public PointF getP(float u)
         {
-            int Count = CtrlPoint.Count;
-            PointF[,] Stack = new PointF[Count, Count];
-
-            if (Count > 1)
-            {
-                for (int i = 0; i < Count; i++)
-                    Stack[i, 0] = CtrlPoint[i];
- 
-                for (int j = 0; j < (Count - 1); j++)                
-                    for (int i = 0; i < (Count - 1); i++)
-                        Stack[i, j + 1] = new PointF(u * Stack[i + 1, j].X + (1-u) * Stack[i, j].X, u * Stack[i + 1, j].Y + (1-u) * Stack[i, j].Y);                 
-
-                return Stack[0, (Count - 1)];
-            }
-            else
-                return new PointF(0, 0);
+            return getP(u,CtrlPoint);            
         }
 
         public void addP(PointF a)
         {
-            if (CtrlPoint.Count == 0)
-                CtrlPoint.Add(a);
-            else if (a != CtrlPoint[CtrlPoint.Count - 1])
-                CtrlPoint.Add(a);
-            return;      
+            CtrlPoint.Add(a);
         }
 
         public string listP()
