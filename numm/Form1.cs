@@ -353,29 +353,28 @@ namespace numm
             MouseLoc.Text = "0,0";
         }
 
-        private void T_Buzier1_CheckedChanged(object sender, EventArgs e)
+        
+        private void T1_CheckedChanged(object sender, EventArgs e)
         {
             ClearCurve1();
-        }
+        }     
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            ClearCurve1();
-            if (radioButton1.Checked)
-                B1.Type=2;
-        }
-
-        private void T_Buzier2_CheckedChanged(object sender, EventArgs e)
+        private void T2_CheckedChanged(object sender, EventArgs e)
         {
             ClearCurve2();
+        }    
+
+        private void T_Quadratic2_Click(object sender, EventArgs e)
+        {
+            B2.Type = 2;
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void T_Quadratic1_Click(object sender, EventArgs e)
         {
-            ClearCurve2();
-            if (radioButton2.Checked)
-                B2.Type = 2;
+            B1.Type = 2;
         }
+
+        
     }
 
     public class Bezier
@@ -387,7 +386,7 @@ namespace numm
         public Color PointCo = Color.Red;
         public Color CurveCo = Color.Blue;
         public int Type = 0; // 0: Buzier 1: Line
-        float h = 0.01f; // Resolution of each point
+        const float h = 0.01f; // Resolution of each point
 
         public Bezier()
         {
@@ -435,30 +434,46 @@ namespace numm
         void Quadratic_Calculate() // Calculate each point of Line curve
         {
             int Count = CtrlPoint.Count;
-            float[,] Stack = new float[Count, 2]; //Store x and y
-            float a = 0, b = 0, c = 0, dx = 0;
-            b = (CtrlPoint[1].Y - CtrlPoint[0].Y) / (CtrlPoint[1].X - CtrlPoint[0].X);
-            float qy = 0, xi = 0;
-            h = 1;                
+            if ((Count - 1) % 2 != 0)
+                MessageBox.Show("Control point count must be odd");
+            else if (Count > 1)
+            {     
+                for(int i = 0; i < Count -1; i+=2)
+                {
+                    if (i  >= Count -2)
+                        break;
+
+                    List<PointF> P = new List<PointF>();
+                    P.Add(CtrlPoint[i]);
+                    P.Add(CtrlPoint[i + 1]);
+                    P.Add(CtrlPoint[i + 2]);
+                    
+                    for (float u = 0; u < 1; u = u + h)
+                    {                        
+                        Point_Curve.Add(getQP(u,P.ToList()));
+                    }
+                }
+            }            
+        }
+
+        public PointF getQP(float u,List<PointF> CP)
+        {
+            int Count = CP.Count;
+            PointF[,] Stack = new PointF[Count, Count];
+
             if (Count > 1)
             {
-                for (int i = 0; i < (Count-1); i++)
-                {                    
-                    a = CtrlPoint[i].Y;
-                    xi = CtrlPoint[i].X;
-                    dx = CtrlPoint[i + 1].X - xi;
-                    float sign = dx / Math.Abs(dx);                                                 
-                    if (i != 0)
-                        c = (CtrlPoint[i + 1].Y - CtrlPoint[i].Y - b * dx)/(dx * dx);                    
-                    for (float u = xi; Math.Abs(u-xi-dx) > 0 ; u = u + sign * h) 
-                    {
-                        qy = a + b * (u - xi) + c * (u - xi) * (u - xi);                        
-                        Point_Curve.Add(new PointF(u,qy));
-                    }
-                    b = b + 2 * c * dx;
-                                        
-                }               
-            }            
+                for (int i = 0; i < Count; i++)
+                    Stack[i, 0] = CP[i];
+
+                for (int j = 0; j < (Count - 1); j++)
+                    for (int i = 0; i < (Count - 1); i++)
+                        Stack[i, j + 1] = new PointF(u * Stack[i + 1, j].X + (1 - u) * Stack[i, j].X, u * Stack[i + 1, j].Y + (1 - u) * Stack[i, j].Y);
+
+                return Stack[0, (Count - 1)];
+            }
+            else
+                return new PointF(0, 0);
         }
 
         public PointF getP(float u)
