@@ -1,5 +1,4 @@
 # numm
-Numerical Methods finsl project -- Bézier curve generator
+Numerical Methods class finsl project -- Bézier curve generator
 
 
-gjglgjljisfwejofjofhefjfe
